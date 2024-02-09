@@ -1,17 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <style>
-        #snakeGame {
-            border: 1px solid black;
-            width: 400px;
-            height: 400px;
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+        }
+        #snakeGame { 
+            background-color: #f0f0f0; 
+            margin: 0 auto; 
+            border: 1px solid black; 
+            width: 640px; 
+            height: 640px; 
+        }
+        #scoreForm {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <h1>Snake Game</h1>
     <canvas id="snakeGame"></canvas>
-    <script src="{{ url_for('static', filename='snake.js') }}"></script>
+    <div id="scoreDisplay">Score: <span id="score">0</span></div>
+    <div id="scoreForm" style="display:none;">
+        <input type="text" id="playerName" placeholder="Enter your name">
+        <button onclick="submitScore()">Submit Score</button>
+    </div>
+    <h2>Leaderboard</h2>
+    <div id="leaderboard">
+        <!-- Leaderboard entries will be populated here -->
+    </div>
+    <script src="static/snake.js"></script>
+    <script>
+        function submitScore() {
+            const playerName = document.getElementById('playerName').value;
+            const playerScore = document.getElementById('score').textContent;
+            // AJAX call to submit score
+            fetch('/submit_score', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: playerName, score: playerScore})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Refresh or update leaderboard
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Additional JavaScript to manage leaderboard display
+        // and other dynamic elements of the page...
+    </script>
 </body>
 </html>
