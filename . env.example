@@ -1,0 +1,4 @@
+# .env file
+
+LNBIT_API_KEY=your_lnbit_api_key
+DATABASE_URL=sqlite:///snakegame.db
